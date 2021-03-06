@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chat App</title>
+        <link rel="icon" href="/img/favicon.png">
+        <link rel="stylesheet" href="/css/styles.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        <div class="chat">
+            <div id="sidebar" class="chat__sidebar">
+
+            </div>
+            <div id="chat-container" class="chat__main">
+                <div id="messages" class="chat__messages">
+                <div>
+                    <img id="output" for="file" width="100"/>
+                    <img id="showreturned" for="file" width="100"/>
+                </div>
+            </div>
+                
+
+
+                
+                <div class="compose">
+                    <form id="message-form">
+                        <input name="message" placeholder="Message" required autocomplete="off">
+                        <button><i class="material-icons">send</i></button>
+                    </form>
+                    <button id="share-location"><i class="material-icons">add_location</i></button>
+                    <div class="padding-right"></div>
+                    <input name="image" id="file" type="file" placeholder="Pick Image" accept="image/*" onchange="handleFile(event)">
+                    <button id="share-image" type="button"><i class="material-icons">image</i></button>
+                </div>                
+            </div>
+        </div>
+
+        <script id="message-template" type="text/html">
+            <div class="message">
+                <p>
+                    <span class="message__name">{{username}}</span>
+                    <span class="message__meta">{{createdAt}}</span>
+                </p>
+                <p>{{message}}</p>
+            </div>
+        </script>
+
+        <script id="location-message-template" type="text/html">
+            <div class="message">
+                <p>
+                    <span class="message__name">{{username}}</span>
+                    <span class="message__meta">{{createdAt}}</span>
+                </p>
+                <p><a href="{{url}}" target="_blank">My current location</a></p>
+            </div>
+        </script>
+
+        <script id="image-template">
+            <div class="image">
+                <p>
+                    <span class="message__name">{{username}}</span>
+                    <span class="message__meta">{{createdAt}}</span>
+                </p>
+                <img src={{image}} width="100"/>
+            </div>
+        </script>
+
+        <script id="slider-template" type="text/html">
+            <h2 id="room-title">{{room}}</h2>
+            <h3 id="list-title">users</h3>
+            <ul class="users">
+                {{#users}}
+                    <li>{{username}}</li>
+                {{/users}}
+            </ul>
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/chat.js"></script>
+    </body>
+</html>
