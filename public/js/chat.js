@@ -110,6 +110,7 @@ $sendLocationButton.addEventListener('click', () => {
             if(error){
                 return console.log(error)
             }
+                    
             console.log('Location Shared')
         })
     })

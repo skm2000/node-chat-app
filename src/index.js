@@ -58,6 +58,9 @@ io.on('connection',(socket)=>{
     })
 
 
+    let check = 'no';
+
+
     socket.on('sendMessage',(message,callback) => {
 
         const user = getUser(socket.id)
@@ -66,7 +69,14 @@ io.on('connection',(socket)=>{
             return callback('Profanity is not allowed!')
         }
 
-        io.to(user.room).emit('message', generateMessages(user.username,message))
+        if(message.startsWith('broadcast')){
+            check = 'broadcast';
+            console.log('broadcast');
+            io.emit('message', generateMessages(user.username,message))
+        }else{
+            io.to(user.room).emit('message', generateMessages(user.username,message))
+        }
+
         callback()
     })
 
@@ -85,11 +95,20 @@ io.on('connection',(socket)=>{
     socket.on('sendImage', (image,callback) => {
         
         const user = getUser(socket.id)
-        io.to(user.room).emit('image',{
-            username : user.username,
-            image : image,
-            createdAt : new Date().getTime()
-        })
+        if(check == 'broadcast'){
+            io.emit('image',{
+                username : user.username,
+                image : image,
+                createdAt : new Date().getTime()
+            })
+            check = 'no'
+        }else{
+            io.to(user.room).emit('image',{
+                username : user.username,
+                image : image,
+                createdAt : new Date().getTime()
+            })
+        }
         callback()
     })
 
@@ -111,3 +130,5 @@ io.on('connection',(socket)=>{
 server.listen(port, () => {
     console.log(`Server is listening on port ${port}`)
 })
+
+// https://shubham-node-chat-app.herokuapp.com
